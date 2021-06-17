@@ -27,10 +27,18 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.LogicUpdate();
 
-        if (input != Vector2.zero)
+        #region State transitions
+
+        if (input.magnitude > 0f && input.magnitude <= playerData.walkRunThreshold)
         {
             playerStateMachine.ChangeState(player.WalkState);
         }
+        else if (input.magnitude > playerData.walkRunThreshold)
+        {
+            playerStateMachine.ChangeState(player.RunState);
+        }
+
+        #endregion
     }
 
     public override void PhysicsUpdate()

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The State Machine is responsible for handling with state the player is currently in.
+/// </summary>
 public class PlayerStateMachine
 {
     public PlayerState CurrentState { get; private set; }

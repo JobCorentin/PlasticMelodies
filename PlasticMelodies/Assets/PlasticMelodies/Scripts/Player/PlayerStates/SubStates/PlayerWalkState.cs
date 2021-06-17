@@ -27,10 +27,28 @@ public class PlayerWalkState : PlayerGroundedState
     {
         base.LogicUpdate();
 
-        if (input == Vector2.zero)
+        #region state behavior
+
+        //Move the player according to the direction calculated in ground superstate.
+        characterController.Move(moveDirection * playerData.walkSpeed * Time.deltaTime);
+
+        //Apply and lerp the player look angle to have a smooth transition.
+        player.transform.rotation = Quaternion.Lerp(player.transform.rotation, lookRotation, playerData.rotationSpeed * Time.deltaTime);
+
+        #endregion
+
+        #region state transitions
+
+        if (input.magnitude == 0f)
         {
             playerStateMachine.ChangeState(player.IdleState);
         }
+        else if (input.magnitude > playerData.walkRunThreshold)
+        {
+            playerStateMachine.ChangeState(player.RunState);
+        }
+
+        #endregion
     }
 
     public override void PhysicsUpdate()
